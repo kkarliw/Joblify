@@ -26,7 +26,7 @@ _Connecting talent, companies, freelancers, entrepreneurs and students — power
 
 [![Tests](https://img.shields.io/badge/E2E_Tests-43_Passed-22C55E?style=for-the-badge&logo=playwright&logoColor=white)](./talent-flow/tests/e2e)
 [![Status](https://img.shields.io/badge/Status-MVP_Funcional-FFCC00?style=for-the-badge)](#)
-[![License](https://img.shields.io/badge/License-Private-6B7280?style=for-the-badge)](#)
+[![License](https://img.shields.io/badge/License-Clow-6B7280?style=for-the-badge)](#)
 
 <br />
 
@@ -131,7 +131,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 └──────────┘        └──────────────────────────────────┘
 ```
 
-**Patrón:** Monorepo · `backend/` + `talent-flow/` · API REST · No microservicios
+**Patrón:** Monorepo · `backend/` + `fronted/` · API REST · No microservicios
 
 ---
 
@@ -459,13 +459,13 @@ cd backend && npm run verify
 
 ## ⚖️ Licencia
 
-Proyecto privado — © 2026 Joblify. Todos los derechos reservados.
+Clow — © 2026 Joblify. Todos los derechos reservados.
 
 ---
 
 <div align="center">
 
-Construido con ❤️ para el talento latinoamericano
+Presentado por: Karla Amaranto, Isabel Alvarez
 
 **[↑ Volver arriba](#)**
 
