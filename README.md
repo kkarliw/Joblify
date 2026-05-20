@@ -1,27 +1,21 @@
 <div align="center">
 
-<br>
+<br />
 
-<pre>
- ██████╗ ██████╗ ██╗     ██╗███████╗██╗██╗██╗██╗  ██╗
-     ██║██╔═══██╗██╔══╗  ██║     ██║██╔════╝╚██╗ ██╔╝
+```
+     ██╗ ██████╗ ██████╗ ██╗     ██╗███████╗██╗   ██╗
+     ██║██╔═══██╗██╔══██╗██║     ██║██╔════╝╚██╗ ██╔╝
      ██║██║   ██║██████╔╝██║     ██║█████╗   ╚████╔╝ 
 ██   ██║██║   ██║██╔══██╗██║     ██║██╔══╝    ╚██╔╝  
 ╚█████╔╝╚██████╔╝██████╔╝███████╗██║██║        ██║   
- ╚════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝        ╚═╝
-</pre>
+ ╚════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝        ╚═╝   
+```
 
-<h3>🚀 Plataforma de Empleo Inteligente para Latinoamérica</h3>
+**Plataforma de Empleo Inteligente para Latinoamérica**
 
-<p>
-<i>
-Connecting talent, companies, freelancers, entrepreneurs and students — powered by local AI
-</i>
-</p>
+_Connecting talent, companies, freelancers, entrepreneurs and students — powered by local AI_
 
-<br>
-
-<div align="center">
+<br />
 
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -29,21 +23,17 @@ Connecting talent, companies, freelancers, entrepreneurs and students — powere
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Prisma](https://img.shields.io/badge/Prisma-5.14-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io)
+
 [![Tests](https://img.shields.io/badge/E2E_Tests-43_Passed-22C55E?style=for-the-badge&logo=playwright&logoColor=white)](./talent-flow/tests/e2e)
 [![SonarQube](https://img.shields.io/badge/SonarQube-Passed-22C55E?style=for-the-badge&logo=sonarqube&logoColor=white)](#calidad-de-código--sonarqube)
 [![Status](https://img.shields.io/badge/Status-MVP_Funcional-FFCC00?style=for-the-badge)](#)
-[![License](https://img.shields.io/badge/License-Clow-6B7280?style=for-the-badge)](#)
+[![License](https://img.shields.io/badge/License-Private-6B7280?style=for-the-badge)](#)
 
-<br><br>
+<br />
 
-<a href="#demo">🚀 Demo</a> ·
-<a href="#documentación">📚 Documentación</a> ·
-<a href="#instalación-rápida">⚡ Instalación rápida</a> ·
-<a href="#motor-de-ia">🤖 Motor IA</a> ·
-<a href="#esquema-de-base-de-datos">🗃 Esquema BD</a> ·
-<a href="#calidad-de-código--sonarqube">🔍 SonarQube</a>
+[🚀 Demo](#demo) · [📚 Documentación](#documentación) · [⚡ Instalación rápida](#instalación-rápida) · [🤖 Motor IA](#motor-de-ia) · [🗃 Esquema BD](#esquema-de-base-de-datos) · [🔍 SonarQube](#calidad-de-código--sonarqube)
 
-<br><br>
+<br />
 
 </div>
 
@@ -57,7 +47,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 |:---:|:---:|:---:|:---:|:---:|
 | Encuentra empleo compatible con su perfil mediante IA | Publica vacantes y obtiene ranking automático de candidatos | Gestiona servicios, propuestas y pagos con escrow | Lanza startups y busca cofundadores con pitch IA | Accede a prácticas profesionales y recursos educativos |
 
-> **Geografía inicial:** Colombia — **Idioma:** Español
+> **Geografía inicial:** Colombia · México · España — **Idioma:** Español
 
 ---
 
@@ -142,7 +132,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 └──────────┘        └──────────────────────────────────┘
 ```
 
-**Patrón:** Monorepo · `backend/` + `frontend/` · API REST · No microservicios
+**Patrón:** Monorepo · `backend/` + `talent-flow/` · API REST · No microservicios
 
 ---
 
@@ -556,6 +546,21 @@ v1.2 — Producción
 
 v2.0 — Scale
   └── Admin dashboard · Mentoría completa · App móvil · Analytics avanzados
+```
+
+---
+
+## 🤝 Contribuir
+
+```bash
+# Crear rama desde develop
+git checkout -b feature/nombre-del-feature
+
+# Ejecutar verificación antes de hacer push
+cd talent-flow && npm run verify
+cd backend && npm run verify
+
+# Pull request a develop
 ```
 
 **Convenciones de commits:** `feat:`, `fix:`, `docs:`, `refactor:`, `test:`
