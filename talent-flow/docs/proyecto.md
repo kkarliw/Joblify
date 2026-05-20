@@ -1,6 +1,6 @@
-# Joblify — Documentación de Proyecto (v2026-05-18)
+# Joblify — Documentación de Proyecto (v2026-05-20)
 
-Este documento consolida el estado del proyecto después de cerrar los roles **Candidato, Talento, Estudiante, Empresa y Freelancer**. El rol **Emprendedor** continúa en mock y no forma parte de esta entrega.
+Este documento consolida el estado del proyecto después de cerrar los roles **Candidato, Talento, Estudiante, Empresa, Freelancer y Emprendedor** con flujos conectados a backend y documentación por rol.
 
 ---
 
@@ -63,15 +63,15 @@ Este documento consolida el estado del proyecto después de cerrar los roles **C
 | Estudiante | `docs/roles/estudiante.md` | ✅ completado |
 | Empresa | `docs/roles/empresa.md` | ✅ completado |
 | Freelancer | `docs/roles/freelancer.md` | ✅ completado |
-| Emprendedor | _sin entregar_ | ❌ mock |
+| Emprendedor | `docs/roles/emprendedor.md` | ✅ completado |
 
 ---
 
 ## 5. Próximos pasos
-1. **Rol Emprendedor**: migrar de mock a datos reales + documentarlo.
-2. **IA**: activar resúmenes automatizados (Ollama) en Empresa, Talento y Estudiante.
-3. **Observabilidad**: añadir métricas (Datadog/Sentry) para flujos recién implementados.
-4. **Docs**: consolidar todo en `docs/entrega-final.md` cuando Emprendedor esté listo.
+1. **Cobertura E2E adicional**: ampliar de 43 casos actuales a suites por módulos protegidos (`/app/*`).
+2. **Observabilidad**: añadir métricas y alertas (Sentry/Datadog) para flujos críticos.
+3. **Infra de producción**: hardening de despliegue y CI/CD.
+4. **Pagos reales**: integrar Stripe sobre modelos de escrow ya existentes.
 
 ---
 

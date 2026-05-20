@@ -26,7 +26,7 @@
    ┌────────────┐ ┌─────────┐ ┌──────────┐
    │ PostgreSQL │ │ Ollama  │ │ SendGrid │
    │  (Prisma)  │ │  Local  │ │ / Gmail  │
-   │  Supabase  │ │ llama3  │ │  (SMTP)  │
+   │   local    │ │ llama3  │ │  (SMTP)  │
    └────────────┘ └─────────┘ └──────────┘
 ```
 
@@ -61,7 +61,7 @@
 | Framework | Express | 4.19 |
 | Lenguaje | TypeScript | 5.4 |
 | ORM | Prisma Client | 5.14 |
-| Base de datos | PostgreSQL (Supabase) | 16 |
+| Base de datos | PostgreSQL (local) | 16 |
 | Auth | JWT (HS256) + bcryptjs | 9.0 / 2.4 |
 | OAuth | Passport.js + Google Strategy | 0.7 / 2.0 |
 | Validación | Zod | 3.23 |
