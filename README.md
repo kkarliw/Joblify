@@ -47,7 +47,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 |:---:|:---:|:---:|:---:|:---:|
 | Encuentra empleo compatible con su perfil mediante IA | Publica vacantes y obtiene ranking automático de candidatos | Gestiona servicios, propuestas y pagos con escrow | Lanza startups y busca cofundadores con pitch IA | Accede a prácticas profesionales y recursos educativos |
 
-> **Geografía inicial:** Colombia · México · España — **Idioma:** Español
+> **Geografía inicial:** Colombia — **Idioma:** Español
 
 ---
 
