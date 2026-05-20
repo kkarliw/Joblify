@@ -25,12 +25,13 @@ _Connecting talent, companies, freelancers, entrepreneurs and students — power
 [![Prisma](https://img.shields.io/badge/Prisma-5.14-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io)
 
 [![Tests](https://img.shields.io/badge/E2E_Tests-43_Passed-22C55E?style=for-the-badge&logo=playwright&logoColor=white)](./talent-flow/tests/e2e)
+[![SonarQube](https://img.shields.io/badge/SonarQube-Passed-22C55E?style=for-the-badge&logo=sonarqube&logoColor=white)](#calidad-de-código--sonarqube)
 [![Status](https://img.shields.io/badge/Status-MVP_Funcional-FFCC00?style=for-the-badge)](#)
 [![License](https://img.shields.io/badge/License-Clow-6B7280?style=for-the-badge)](#)
 
 <br />
 
-[🚀 Demo](#demo) · [📚 Documentación](#documentación) · [⚡ Instalación rápida](#instalación-rápida) · [🤖 Motor IA](#motor-de-ia)
+[🚀 Demo](#demo) · [📚 Documentación](#documentación) · [⚡ Instalación rápida](#instalación-rápida) · [🤖 Motor IA](#motor-de-ia) · [🗃 Esquema BD](#esquema-de-base-de-datos) · [🔍 SonarQube](#calidad-de-código--sonarqube)
 
 <br />
 
@@ -131,7 +132,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 └──────────┘        └──────────────────────────────────┘
 ```
 
-**Patrón:** Monorepo · `backend/` + `fronted/` · API REST · No microservicios
+**Patrón:** Monorepo · `backend/` + `frontend/` · API REST · No microservicios
 
 ---
 
@@ -382,6 +383,115 @@ VITE_API_URL="http://localhost:4000/api"
 
 ---
 
+## 🗃 Esquema de Base de Datos
+
+El modelo de datos cuenta con **24 tablas y 8 enums** diseñados para soportar los 5 roles de usuario y todos los flujos de la plataforma. El diagrama completo fue generado con Prisma Studio sobre PostgreSQL 16.
+
+<details>
+<summary><strong>Ver diagrama completo del esquema (click para expandir)</strong></summary>
+
+![Diagrama de base de datos Joblify](./docs/assets/db-schema.png)
+
+</details>
+
+### Entidades principales y sus relaciones
+
+```
+users ──────────────────────────────────────────────────────┐
+  │                                                          │
+  ├── mentor_profiles      (perfil mentor)                   │
+  ├── freelancer_profiles  (perfil freelancer)               │
+  ├── follows              (sistema de seguimiento)          │
+  ├── notifications        (centro de notificaciones)        │
+  ├── educations           (formación académica)             │
+  ├── experiences          (experiencia laboral)             │
+  │                                                          │
+  └── jobs (poster) ──────────────────────────────────┐      │
+        │                                             │      │
+        ├── job_skills          (skills requeridas)   │      │
+        ├── applications ───────────────────────┐     │      │
+        │     ├── application_documents          │    │      │
+        │     └── pre_interview_answers          │    │      │
+        └── mentor_sessions                      │    │      │
+                                                 │    │      │
+users (applicant) ───────────────────────────────┘    │      │
+  │                                                   │      │
+  ├── startups ──────────────────────────────────┐    │      │
+  │     ├── startup_roles                        │    │      │
+  │     └── cofounder_applications               │    │      │
+  │                                              │    │      │
+  ├── freelance_projects ────────────────────────┤    │      │
+  │     ├── proposals                            │    │      │
+  │     ├── escrow                               │    │      │
+  │     └── reviews                              │    │      │
+  │                                              │    │      │
+  ├── posts ─── post_likes / comments            │    │      │
+  ├── conversations ── messages                  │    │      │
+  │     └── conversation_participants            │    │      │
+  ├── saved_jobs / saved_posts                   │    │      │
+  └── skill_tests                                │    │      │
+```
+
+### Tablas destacadas
+
+| Tabla | Registros clave | Propósito |
+|-------|----------------|-----------|
+| `users` | `email`, `role`, `profileData (JSON)`, `profileCompletion` | Entidad central — todos los roles |
+| `jobs` | `title`, `salaryMin/Max`, `modality`, `type`, `status` | Vacantes y prácticas |
+| `applications` | `status` (6 estados), `matchScore`, `aiExplanation` | Pipeline completo |
+| `startups` | `stage`, `sector`, `pitch`, `openRoles` | Módulo emprendedor |
+| `freelance_projects` | `budget`, `deadline`, `escrow` | Módulo freelance con pagos |
+| `conversations` + `messages` | `isRead`, `requestStatus` | Chat con control de acceso |
+| `notifications` | `type`, `payload (JSON)`, `isRead` | Centro de notificaciones |
+
+---
+
+## 🔍 Calidad de Código — SonarQube
+
+Análisis estático ejecutado con **SonarQube Cloud** sobre el monorepo completo. Último análisis: **20/05/2026, 16:09**.
+
+### Resultado general: ✅ Quality Gate PASSED
+
+| Métrica | Valor | Rating | Tendencia |
+|---------|-------|--------|-----------|
+| **Quality Gate** | All conditions passed | ✅ Passed | — |
+| **Lines of Code** | 33k | — | TypeScript, PL/SQL |
+| **Open Issues** | 445 | — | — |
+| **Duplications** | 3.8% | — | Sin cambios vs. últimos 30 días |
+| **Security Rating** | C | 🟡 | -23.1% issues vs. últimos 30 días |
+| **Reliability** | B | 🟢 | 57 issues |
+| **Maintainability** | A | 🟢 | 394 issues |
+| **Security Hotspots Reviewed** | 0.0% | 🔴 E | Pendiente revisión manual |
+| **Coverage** | Sin datos | — | Tests sin instrucción de cobertura |
+
+### Distribución de Issues de Seguridad
+
+```
+Open Security Issues (20 total — mejora del 23.1%)
+  ████████████████████████████░░  Low    75%  (15 issues)
+  ████████░░░░░░░░░░░░░░░░░░░░░░  Medium 25%  ( 5 issues)
+```
+
+### Comandos para ejecutar el análisis
+
+```bash
+# Backend
+cd backend
+set SONAR_HOST_URL=http://localhost:9000
+set SONAR_TOKEN=tu_token
+npm run sonar
+
+# Frontend
+cd talent-flow
+set SONAR_HOST_URL=http://localhost:9000
+set SONAR_TOKEN=tu_token
+npm run sonar
+```
+
+> Los archivos `sonar-project.properties` están configurados en `backend/` y `talent-flow/` respectivamente. El análisis en SonarQube Cloud se lanza automáticamente desde el repositorio público de GitHub.
+
+---
+
 ## 📊 Estado del Proyecto
 
 ### Módulos implementados
@@ -438,21 +548,6 @@ v2.0 — Scale
   └── Admin dashboard · Mentoría completa · App móvil · Analytics avanzados
 ```
 
----
-
-## 🤝 Contribuir
-
-```bash
-# Crear rama desde develop
-git checkout -b feature/nombre-del-feature
-
-# Ejecutar verificación antes de hacer push
-cd talent-flow && npm run verify
-cd backend && npm run verify
-
-# Pull request a develop
-```
-
 **Convenciones de commits:** `feat:`, `fix:`, `docs:`, `refactor:`, `test:`
 
 ---
@@ -465,7 +560,7 @@ Clow — © 2026 Joblify. Todos los derechos reservados.
 
 <div align="center">
 
-Presentado por: Karla Amaranto, Isabel Alvarez
+*Presentado por Karla Amaranto e Isabel Alvarez*
 
 **[↑ Volver arriba](#)**
 
