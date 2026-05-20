@@ -27,7 +27,7 @@ _Connecting talent, companies, freelancers, entrepreneurs and students — power
 [![Tests](https://img.shields.io/badge/E2E_Tests-43_Passed-22C55E?style=for-the-badge&logo=playwright&logoColor=white)](./talent-flow/tests/e2e)
 [![SonarQube](https://img.shields.io/badge/SonarQube-Passed-22C55E?style=for-the-badge&logo=sonarqube&logoColor=white)](#calidad-de-código--sonarqube)
 [![Status](https://img.shields.io/badge/Status-MVP_Funcional-FFCC00?style=for-the-badge)](#)
-[![License](https://img.shields.io/badge/License-Private-6B7280?style=for-the-badge)](#)
+[![License](https://img.shields.io/badge/License-Clow-6B7280?style=for-the-badge)](#)
 
 <br />
 
@@ -39,7 +39,7 @@ _Connecting talent, companies, freelancers, entrepreneurs and students — power
 
 ---
 
-## ¿Qué es Joblify?
+## ¿Qué es Joblify? 🔍
 
 Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del mercado laboral latinoamericano. A diferencia de las plataformas tradicionales que dependen de CVs en PDF estáticos, Joblify utiliza un **motor de matching con IA local (Ollama)** que analiza perfiles estructurados y genera scores de compatibilidad con explicación en lenguaje natural.
 
@@ -51,13 +51,13 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 
 ---
 
-## ✨ Funcionalidades Destacadas
+## Funcionalidades Destacadas
 
 <table>
 <tr>
 <td width="50%">
 
-### 🤖 Motor de IA Local
+### Motor de IA Local
 - **Matching inteligente** — Score 0-100 con explicación natural
 - **Extracción de CV** — PDF → perfil estructurado automáticamente
 - **Chat contextual** — Asistente IA flotante en toda la app
@@ -69,7 +69,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 </td>
 <td width="50%">
 
-### 📊 Módulo Empresa
+### Módulo Empresa
 - **Pipeline Kanban** drag & drop con 6 estados
 - **Ranking IA** de candidatos con badges de color
 - **Agendamiento de entrevistas** con email automático
@@ -81,7 +81,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 <tr>
 <td>
 
-### 👤 Módulo Candidato / Talento
+### Módulo Candidato / Talento
 - **Filtros avanzados** — ubicación, modalidad, salario, skills, fecha
 - **Timeline de aplicaciones** — seguimiento visual de cada proceso
 - **Upload de CV** con extracción y pre-llenado de perfil por IA
@@ -91,7 +91,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 </td>
 <td>
 
-### 🚀 Módulo Emprendedor
+### Módulo Emprendedor
 - **CRUD completo** de startups con roles y equity
 - **Pitch obligatorio por IA** — sin fallbacks, sin texto genérico
 - **Gestión de cofundadores** — postulaciones con estados
@@ -104,7 +104,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 
 ---
 
-## 🏗 Arquitectura
+## Arquitectura
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -132,11 +132,11 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 └──────────┘        └──────────────────────────────────┘
 ```
 
-**Patrón:** Monorepo · `backend/` + `talent-flow/` · API REST · No microservicios
+**Patrón:** Monorepo · `backend/` + `frontend/` · API REST · No microservicios
 
 ---
 
-## 🛠 Stack Tecnológico
+## Stack Tecnológico
 
 ### Frontend (`talent-flow/`)
 
@@ -178,7 +178,7 @@ Joblify unifica en un solo ecosistema digital **cinco tipos de usuarios** del me
 
 ---
 
-## 📁 Estructura del Monorepo
+## Estructura del Monorepo
 
 ```
 joblify/
@@ -231,7 +231,7 @@ joblify/
 
 ---
 
-## ⚡ Instalación Rápida
+## Instalación Rápida
 
 ### Prerrequisitos
 
@@ -295,7 +295,7 @@ cd backend && npm run verify
 
 ---
 
-## 🤖 Motor de IA
+## Motor de IA
 
 El matching utiliza **Ollama en local** — sin enviar datos a APIs externas. Cada endpoint tiene su modelo y timeout configurados:
 
@@ -321,7 +321,7 @@ GET  /api/ai/recommendations → qwen2.5:3b  → Top 5 oportunidades personaliza
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Suite E2E completa (Playwright)
@@ -339,7 +339,7 @@ npm run test:e2e
 
 ---
 
-## 📋 Variables de Entorno
+## Variables de Entorno
 
 ### Backend (`.env`)
 
@@ -383,7 +383,7 @@ VITE_API_URL="http://localhost:4000/api"
 
 ---
 
-## 🗃 Esquema de Base de Datos
+## Esquema de Base de Datos
 
 El modelo de datos cuenta con **24 tablas y 8 enums** diseñados para soportar los 5 roles de usuario y todos los flujos de la plataforma. El diagrama completo fue generado con Prisma Studio sobre PostgreSQL 16.
 
@@ -446,7 +446,7 @@ users (applicant) ────────────────────�
 
 ---
 
-## 🔍 Calidad de Código — SonarQube
+## Calidad de Código — SonarQube
 
 Análisis estático ejecutado con **SonarQube Cloud** sobre el monorepo completo. Último análisis: **20/05/2026, 16:09**.
 
@@ -492,7 +492,7 @@ npm run sonar
 
 ---
 
-## 📊 Estado del Proyecto
+## Estado del Proyecto
 
 ### Módulos implementados
 
@@ -519,7 +519,7 @@ npm run sonar
 
 ---
 
-## 📚 Documentación
+## Documentación
 
 | Documento | Descripción |
 |-----------|-------------|
@@ -532,7 +532,7 @@ npm run sonar
 
 ---
 
-## 🗺 Roadmap
+## Roadmap
 
 ```
 v1.0 — MVP (✅ Actual)
@@ -549,19 +549,6 @@ v2.0 — Scale
 ```
 
 ---
-
-## 🤝 Contribuir
-
-```bash
-# Crear rama desde develop
-git checkout -b feature/nombre-del-feature
-
-# Ejecutar verificación antes de hacer push
-cd talent-flow && npm run verify
-cd backend && npm run verify
-
-# Pull request a develop
-```
 
 **Convenciones de commits:** `feat:`, `fix:`, `docs:`, `refactor:`, `test:`
 
