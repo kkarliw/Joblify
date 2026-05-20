@@ -1,0 +1,394 @@
+{
+  "info": {
+    "_postman_id": "joblify-auth-tests",
+    "name": "Joblify - Auth Tests",
+    "description": "Colección completa de pruebas para el sistema de autenticación de Joblify",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. REGISTRO - Candidato",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\",\n  \"password\": \"Test123456\",\n  \"name\": \"Juan Pérez\",\n  \"role\": \"candidato\",\n  \"headline\": \"Desarrollador Full Stack\",\n  \"location\": \"Bogotá, Colombia\",\n  \"profileData\": {\n    \"experienceYears\": 3,\n    \"availability\": \"fulltime\",\n    \"expectedSalary\": 50000,\n    \"modalityPref\": \"remote\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. REGISTRO - Empresa",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"empresa@test.com\",\n  \"password\": \"Test123456\",\n  \"name\": \"Tech Corp\",\n  \"role\": \"empresa\",\n  \"headline\": \"Empresa de Tecnología\",\n  \"location\": \"Medellín, Colombia\",\n  \"profileData\": {\n    \"companyName\": \"Tech Corp\",\n    \"industry\": \"tech\",\n    \"companySize\": \"medium\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. REGISTRO - Freelancer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"freelancer@test.com\",\n  \"password\": \"Test123456\",\n  \"name\": \"Carlos López\",\n  \"role\": \"freelancer\",\n  \"headline\": \"Diseñador UX/UI\",\n  \"location\": \"Lima, Perú\",\n  \"profileData\": {\n    \"hourlyRate\": 75,\n    \"availability\": \"projects\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. REGISTRO - Estudiante",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"estudiante@test.com\",\n  \"password\": \"Test123456\",\n  \"name\": \"María García\",\n  \"role\": \"estudiante\",\n  \"headline\": \"Estudiante de Ingeniería\",\n  \"location\": \"Quito, Ecuador\",\n  \"profileData\": {\n    \"institution\": \"Universidad Nacional\",\n    \"career\": \"Ingeniería de Software\",\n    \"semester\": 5,\n    \"internshipType\": \"professional\",\n    \"weeklyHours\": 20\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. REGISTRO - Emprendedor",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"emprendedor@test.com\",\n  \"password\": \"Test123456\",\n  \"name\": \"Roberto Díaz\",\n  \"role\": \"emprendedor\",\n  \"headline\": \"Fundador de Startups\",\n  \"location\": \"México City, México\",\n  \"profileData\": {\n    \"bio\": \"Apasionado por la innovación y la tecnología\",\n    \"industry\": \"fintech\",\n    \"projectName\": \"Mi App Financiera\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. VERIFICAR EMAIL - Código Correcto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\",\n  \"code\": \"123456\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/verify-email",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "verify-email"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. VERIFICAR EMAIL - Código Incorrecto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\",\n  \"code\": \"999999\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/verify-email",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "verify-email"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. REENVIAR CÓDIGO",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/resend-verification",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "resend-verification"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9. LOGIN - Email No Verificado",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\",\n  \"password\": \"Test123456\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10. LOGIN - Email Verificado",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\",\n  \"password\": \"Test123456\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11. LOGIN - Contraseña Incorrecta",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\",\n  \"password\": \"WrongPassword123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12. LOGIN - Email No Existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"noexiste@test.com\",\n  \"password\": \"Test123456\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "13. FORGOT PASSWORD",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"candidato@test.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/forgot-password",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "forgot-password"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "14. REFRESH TOKEN",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"PASTE_REFRESH_TOKEN_HERE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/refresh",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "refresh"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "15. GET PROFILE - Con Token",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer PASTE_ACCESS_TOKEN_HERE"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4000/api/users/me",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users", "me"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "16. LOGOUT",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer PASTE_ACCESS_TOKEN_HERE"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"PASTE_REFRESH_TOKEN_HERE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/auth/logout",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "auth", "logout"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

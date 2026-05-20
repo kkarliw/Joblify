@@ -1,0 +1,29 @@
+.yellow-rect {
+  position: absolute;
+  background: linear-gradient(135deg, #FFD93D 0%, #F5A623 100%);
+  border-radius: 20px;
+  filter: blur(40px);
+}
+
+.yellow-rect-1 {
+  width: 280px;
+  height: 720px;
+  left: 40px;
+  top: 30px;
+}
+
+.yellow-rect-2 {
+  width: 240px;
+  height: 640px;
+  left: 240px;
+  top: 200px;
+  opacity: 0.55;
+}
+
+.yellow-rect-3 {
+  width: 170px;
+  height: 380px;
+  left: 400px;
+  top: 60px;
+  opacity: 0.5;
+}

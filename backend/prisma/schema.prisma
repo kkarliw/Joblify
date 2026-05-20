@@ -1,0 +1,680 @@
+// Joblify - Schema Prisma completo
+// BD: PostgreSQL en Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────
+
+enum Role {
+  CANDIDATO
+  EMPRESA
+  FREELANCER
+  EMPRENDEDOR
+  ESTUDIANTE
+  MENTOR
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  FREELANCE
+  PASANTIA
+}
+
+enum Modality {
+  REMOTO
+  HIBRIDO
+  PRESENCIAL
+}
+
+enum ApplicationStatus {
+  APLICADO
+  SCREENING
+  ENTREVISTA
+  OFERTA
+  CONTRATADO
+  RECHAZADO
+}
+
+enum ProjectStatus {
+  ACTIVO
+  PAUSADO
+  COMPLETADO
+  CANCELADO
+}
+
+enum EscrowStatus {
+  PENDIENTE
+  LIBERADO
+  DISPUTADO
+  REEMBOLSADO
+}
+
+enum PlanType {
+  FREE
+  PRO
+  EMPRESA
+}
+
+enum ConversationRequestStatus {
+  OPEN
+  PENDING
+  REJECTED
+}
+
+// ─────────────────────────────────────────
+// USER — base para todos los roles
+// ─────────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  name          String
+  role          Role     // Usando el Enum Role
+  avatarUrl     String?
+  coverUrl      String?
+  headline      String?
+  bio           String?
+  location      String?
+  phone         String?
+  website       String?
+  linkedinUrl   String?
+  githubUrl     String?
+  isVerified    Boolean  @default(false)
+  emailVerified Boolean  @default(false)
+  verificationToken String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+  isActive      Boolean  @default(true)
+  plan          PlanType @default(FREE)
+  matchScore    Int?     // 0-100, calculado por IA
+  profileCompletion Int  @default(0) // 0-100
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Perfil extendido según rol (JSONB para flexibilidad)
+  profileData   Json?    // datos específicos del rol
+
+  // Relaciones
+  skills        UserSkill[]
+  experience    Experience[]
+  education     Education[]
+  certifications Certification[]
+
+  // Jobs (Empresa publica, Candidato aplica)
+  jobsPosted    Job[]           @relation("JobPoster")
+  applications  Application[]   @relation("Applicant")
+
+  // Freelance
+  services      FreelanceService[]
+  projectsOwned FreelanceProject[] @relation("ProjectClient")
+  projectsWorked FreelanceProject[] @relation("ProjectFreelancer")
+  proposalsSent Proposal[]
+  reviewsGiven  Review[]        @relation("Reviewer")
+  reviewsReceived Review[]      @relation("Reviewed")
+
+  // Startup
+  startupsOwned Startup[]       @relation("StartupFounder")
+  cofounderApps CofounderApplication[]
+
+  // Social
+  postsAuthored Post[]
+  postLikes     PostLike[]
+  comments      Comment[]
+  followers     Follow[]        @relation("Following")
+  following     Follow[]        @relation("Follower")
+  savedJobs     SavedJob[]
+  savedPosts    SavedPost[]
+
+  // Mensajes
+  messagesSent    Message[]     @relation("Sender")
+  messagesReceived Message[]    @relation("Receiver")
+  conversations   ConversationParticipant[]
+  conversationRequestsSent Conversation[] @relation("ConversationRequester")
+
+  // Auth OAuth
+  googleId      String?  @unique
+  
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}
+
+// ─────────────────────────────────────────
+// SKILLS
+// ─────────────────────────────────────────
+
+model Skill {
+  id    String      @id @default(cuid())
+  name  String      @unique
+  users UserSkill[]
+  jobs  JobSkill[]
+
+  @@map("skills")
+}
+
+model UserSkill {
+  userId  String
+  skillId String
+  level   Int?   // 1-5
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([userId, skillId])
+  @@map("user_skills")
+}
+
+// ─────────────────────────────────────────
+// EXPERIENCIA / EDUCACIÓN
+// ─────────────────────────────────────────
+
+model Experience {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  company     String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean  @default(false)
+  description String?
+  createdAt   DateTime @default(now())
+
+  @@map("experiences")
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  institution String
+  degree      String
+  field       String?
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@map("educations")
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  issuer      String
+  issueDate   DateTime
+  expiryDate  DateTime?
+  credentialUrl String?
+  createdAt   DateTime @default(now())
+
+  @@map("certifications")
+}
+
+// ─────────────────────────────────────────
+// JOBS (Vacantes)
+// ─────────────────────────────────────────
+
+model Job {
+  id           String     @id @default(cuid())
+  posterId     String
+  poster       User       @relation("JobPoster", fields: [posterId], references: [id], onDelete: Cascade)
+  title        String
+  description  String
+  requirements String?
+  benefits     String?
+  location     String
+  modality     Modality
+  type         JobType
+  salaryMin    Float?
+  salaryMax    Float?
+  salaryCurrency String  @default("USD")
+  isActive     Boolean    @default(true)
+  isFeatured   Boolean    @default(false)
+  viewCount    Int        @default(0)
+  applyCount   Int        @default(0)
+  expiresAt    DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  savedBy      SavedJob[]
+  skills       JobSkill[]
+  applications Application[]
+  category     JobCategory? @relation(fields: [categoryId], references: [id])
+  categoryId   String?
+
+  @@map("jobs")
+}
+
+model JobCategory {
+  id    String @id @default(cuid())
+  name  String @unique
+  icon  String?
+  jobs  Job[]
+
+  @@map("job_categories")
+}
+
+model JobSkill {
+  jobId   String
+  skillId String
+  job     Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([jobId, skillId])
+  @@map("job_skills")
+}
+
+// ─────────────────────────────────────────
+// APLICACIONES (Pipeline)
+// ─────────────────────────────────────────
+
+model Application {
+  id          String            @id @default(cuid())
+  jobId       String
+  job         Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  applicantId String
+  applicant   User              @relation("Applicant", fields: [applicantId], references: [id], onDelete: Cascade)
+  status      ApplicationStatus @default(APLICADO)
+  matchScore  Int?              // 0-100 IA score
+  aiExplanation String?         // por qué encaja (Claude)
+  coverLetter String?
+  cvUrl       String?
+  recommendationLetterUrl String?
+  notes       String?           // notas internas del reclutador
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  preInterviewAnswers PreInterviewAnswer[]
+
+  @@unique([jobId, applicantId])
+  @@map("applications")
+}
+
+// ─────────────────────────────────────────
+// PRE-ENTREVISTA IA (Chatbot)
+// ─────────────────────────────────────────
+
+model PreInterviewAnswer {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  question      String
+  answer        String
+  aiScore       Int?        // evaluación IA 0-10
+  createdAt     DateTime    @default(now())
+
+  @@map("pre_interview_answers")
+}
+
+model AiChatSession {
+  id        String   @id @default(cuid())
+  userId    String
+  context   String   // "pre_interview" | "recruiter" | "career_advice"
+  messages  Json     // array de {role, content}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ai_chat_sessions")
+}
+
+// ─────────────────────────────────────────
+// FREELANCE
+// ─────────────────────────────────────────
+
+model FreelanceService {
+  id          String   @id @default(cuid())
+  freelancerId String
+  freelancer  User     @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  category    String
+  priceMin    Float
+  priceMax    Float?
+  currency    String   @default("USD")
+  deliveryDays Int
+  isActive    Boolean  @default(true)
+  portfolio   Json?    // array de URLs/imágenes
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  proposals   Proposal[]
+
+  @@map("freelance_services")
+}
+
+model FreelanceProject {
+  id           String        @id @default(cuid())
+  clientId     String
+  client       User          @relation("ProjectClient", fields: [clientId], references: [id])
+  freelancerId String?
+  freelancer   User?         @relation("ProjectFreelancer", fields: [freelancerId], references: [id])
+  title        String
+  description  String
+  budget       Float
+  currency     String        @default("USD")
+  status       ProjectStatus @default(ACTIVO)
+  deadline     DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  proposals    Proposal[]
+  escrow       Escrow?
+  reviews      Review[]
+
+  @@map("freelance_projects")
+}
+
+model Proposal {
+  id          String           @id @default(cuid())
+  projectId   String
+  project     FreelanceProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  freelancerId String
+  freelancer  User             @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  serviceId   String?
+  service     FreelanceService? @relation(fields: [serviceId], references: [id])
+  price       Float
+  currency    String           @default("USD")
+  deliveryDays Int
+  coverLetter String
+  status      String           @default("ENVIADA") // ENVIADA | EN_REVISION | ACEPTADA | RECHAZADA
+  createdAt   DateTime         @default(now())
+
+  @@map("proposals")
+}
+
+// ─────────────────────────────────────────
+// ESCROW (Pagos seguros)
+// ─────────────────────────────────────────
+
+model Escrow {
+  id            String         @id @default(cuid())
+  projectId     String         @unique
+  project       FreelanceProject @relation(fields: [projectId], references: [id])
+  amount        Float
+  currency      String         @default("USD")
+  status        EscrowStatus   @default(PENDIENTE)
+  stripePaymentId String?
+  releasedAt    DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@map("escrows")
+}
+
+// ─────────────────────────────────────────
+// RESEÑAS
+// ─────────────────────────────────────────
+
+model Review {
+  id          String           @id @default(cuid())
+  projectId   String
+  project     FreelanceProject @relation(fields: [projectId], references: [id])
+  reviewerId  String
+  reviewer    User             @relation("Reviewer", fields: [reviewerId], references: [id])
+  reviewedId  String
+  reviewed    User             @relation("Reviewed", fields: [reviewedId], references: [id])
+  rating      Int              // 1-5
+  comment     String?
+  createdAt   DateTime         @default(now())
+
+  @@map("reviews")
+}
+
+// ─────────────────────────────────────────
+// STARTUPS (Emprendedores)
+// ─────────────────────────────────────────
+
+model Startup {
+  id           String   @id @default(cuid())
+  founderId    String
+  founder      User     @relation("StartupFounder", fields: [founderId], references: [id], onDelete: Cascade)
+  name         String
+  tagline      String
+  description  String
+  stage        String   // "Idea" | "MVP" | "Seed" | "Serie A"
+  sector       String?
+  website      String?
+  deckUrl      String?
+  logoUrl      String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  openRoles    StartupRole[]
+  applications CofounderApplication[]
+
+  @@map("startups")
+}
+
+model StartupRole {
+  id          String   @id @default(cuid())
+  startupId   String
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  title       String   // "CTO", "Diseñador Fundador", etc.
+  description String
+  equityMin   Float?
+  equityMax   Float?
+  isOpen      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  applications CofounderApplication[]
+
+  @@map("startup_roles")
+}
+
+model CofounderApplication {
+  id          String      @id @default(cuid())
+  startupId   String
+  startup     Startup     @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  roleId      String?
+  role        StartupRole? @relation(fields: [roleId], references: [id])
+  applicantId String
+  applicant   User        @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  motivation  String
+  status      String      @default("PENDIENTE")
+  createdAt   DateTime    @default(now())
+
+  @@map("cofounder_applications")
+}
+
+// ─────────────────────────────────────────
+// MENTORÍAS
+// ─────────────────────────────────────────
+
+model MentorProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  expertise   String[]
+  industries  String[]
+  languages   String[]
+  pricePerSession Float? // null = gratis
+  currency    String?
+  bio         String?
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  sessions    MentorSession[]
+
+  @@map("mentor_profiles")
+}
+
+model MentorSession {
+  id          String        @id @default(cuid())
+  mentorId    String
+  mentor      MentorProfile @relation(fields: [mentorId], references: [id])
+  menteeId    String
+  scheduledAt DateTime
+  duration    Int           // minutos
+  status      String        @default("PENDIENTE")
+  notes       String?
+  createdAt   DateTime      @default(now())
+
+  @@map("mentor_sessions")
+}
+
+// ─────────────────────────────────────────
+// SOCIAL FEED
+// ─────────────────────────────────────────
+
+model Post {
+  id        String     @id @default(cuid())
+  authorId  String
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  imageUrl  String?
+  tag       String?
+  isPinned  Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  savedBy   SavedPost[]
+
+  likes     PostLike[]
+  comments  Comment[]
+
+  @@map("posts")
+}
+
+model PostLike {
+  userId    String
+  postId    String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, postId])
+  @@map("post_likes")
+}
+
+model SavedJob {
+  userId    String
+  jobId     String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, jobId])
+  @@map("saved_jobs")
+}
+
+model SavedPost {
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, postId])
+  @@map("saved_posts")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+
+  @@map("comments")
+}
+
+model Follow {
+  followerId  String
+  followingId String
+  follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followingId])
+  @@map("follows")
+}
+
+// ─────────────────────────────────────────
+// MENSAJES
+// ─────────────────────────────────────────
+
+model Conversation {
+  id           String                    @id @default(cuid())
+  requestStatus ConversationRequestStatus @default(OPEN)
+  requesterId  String?
+  requester    User?                     @relation("ConversationRequester", fields: [requesterId], references: [id], onDelete: SetNull)
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  conversationId String
+  userId         String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt       DateTime     @default(now())
+
+  @@id([conversationId, userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("Sender", fields: [senderId], references: [id])
+  receiverId     String
+  receiver       User         @relation("Receiver", fields: [receiverId], references: [id])
+  content        String
+  isRead         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@map("messages")
+}
+
+// ─────────────────────────────────────────
+// NOTIFICACIONES
+// ─────────────────────────────────────────
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // "NEW_MATCH" | "MESSAGE" | "APPLICATION_UPDATE" | etc.
+  title     String
+  body      String
+  isRead    Boolean  @default(false)
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}

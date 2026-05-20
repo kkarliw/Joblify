@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fustat:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Joblify Design System — Apple/Notion/Calvin Klein inspired
+   Light minimal, sharp typography, yellow accent, no gradients, no shadows.
+   All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Surfaces */
+    --background: 0 0% 100%;         /* #FFFFFF */
+    --surface: 0 0% 100%;            /* #FFFFFF */
+    --surface-elevated: 0 0% 96%;    /* neutral light gray */
+    --foreground: 0 0% 9%;           /* near-black text */
+    --foreground-deep: 0 0% 4%;      /* deeper black */
+
+    /* Text */
+    --text-muted: 0 0% 45%;          /* neutral muted */
+    --text-hint: 0 0% 62%;           /* neutral hint */
+
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+
+    /* Primary = Yellow accent (Figma #FFCC00) */
+    --primary: 48 100% 50%;          /* #FFCC00 */
+    --primary-foreground: 218 32% 22%;
+    --primary-hover: 45 100% 45%;    /* #E6B800 */
+    --primary-soft: 48 100% 95%;
+
+    /* Secondary */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+
+    /* Muted */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Accent */
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
+
+    /* Status */
+    --success: 142 71% 45%;          /* #22C55E */
+    --warning: 38 92% 50%;           /* #F59E0B */
+    --destructive: 0 84% 60%;        /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+    --info: 217 91% 60%;             /* #3B82F6 */
+
+    /* Borders & inputs (#D6DDEB Figma) */
+    --border: 0 0% 86%;              /* neutral border */
+    --border-strong: 0 0% 9%;
+    --input: 0 0% 86%;
+    --ring: 48 100% 50%;
+
+    /* Footer */
+    --footer-bg: 0 0% 8%;            /* near-black footer */
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 96%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 48 92% 53%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 100%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 48 92% 53%;
+
+    /* Type */
+    --font-display: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-subtitle: 'Montserrat', system-ui, -apple-system, sans-serif;
+    --font-body: 'Montserrat', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  h1 { @apply text-5xl font-bold leading-[1.05]; }
+  h2 { @apply text-4xl font-bold leading-[1.1]; }
+  h3 { @apply text-2xl font-semibold leading-tight; }
+  h4 { @apply text-xl font-semibold; }
+}
+
+@layer components {
+  .jb-card {
+    @apply bg-card border border-border rounded-xl transition-colors;
+  }
+  .jb-card-hover {
+    @apply hover:border-foreground;
+  }
+  .jb-container {
+    @apply max-w-7xl mx-auto px-6 lg:px-10;
+  }
+  .jb-section {
+    @apply py-20 md:py-28;
+  }
+  .jb-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground;
+  }
+  .jb-divider {
+    @apply h-px w-full bg-border;
+  }
+
+  /* Pencil-stroke underline animation */
+  .pencil-underline {
+    position: relative;
+    display: inline-block;
+    color: hsl(var(--primary));
+  }
+  .pencil-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.18em;
+    height: 0.45em;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 18' preserveAspectRatio='none'><path d='M2 12 C 60 4, 130 16, 200 8 S 290 12, 298 6' fill='none' stroke='%23FFCC00' stroke-width='6' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    transform-origin: left center;
+    animation: pencil-draw 1.4s ease-out 0.4s both;
+  }
+
+  /* Yellow-bordered rotated rectangles à la Figma */
+  .yellow-rect {
+    box-sizing: border-box;
+    border: 4px solid hsl(var(--primary) / 0.45);
+    transform: rotate(64deg);
+    pointer-events: none;
+  }
+
+  .landing-rect-companies {
+    width: 240px;
+    height: 600px;
+    right: -120px;
+    top: 60px;
+    opacity: 0.4;
+  }
+
+  .landing-rect-opportunities {
+    width: 280px;
+    height: 700px;
+    left: -140px;
+    top: 80px;
+    opacity: 0.5;
+  }
+
+  .landing-rect-ai-1 {
+    width: 200px;
+    height: 500px;
+    right: -100px;
+    top: -50px;
+    opacity: 0.12;
+  }
+
+  .landing-rect-ai-2 {
+    width: 160px;
+    height: 400px;
+    right: 80px;
+    bottom: -100px;
+    opacity: 0.08;
+  }
+
+  .landing-rect-final {
+    width: 280px;
+    height: 600px;
+    right: -140px;
+    top: -80px;
+    opacity: 0.1;
+  }
+
+  .landing-avatar-c { top: 30%; left: 8%; }
+  .landing-avatar-m { top: 55%; left: 14%; }
+  .landing-avatar-j { top: 75%; left: 22%; }
+  .landing-avatar-s { top: 30%; right: 10%; }
+  .landing-avatar-v { top: 55%; right: 16%; }
+  .landing-avatar-a { top: 78%; right: 8%; }
+}
+
+@layer utilities {
+  .font-fustat {
+    font-family: 'Fustat', system-ui, -apple-system, sans-serif;
+  }
+
+  .font-inter {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  @keyframes pencil-draw {
+    0%   { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+  .animate-pencil { animation: pencil-draw 1.4s ease-out both; }
+
+  /* Infinite logo marquee — GPU-accelerated, 60fps mobile */
+  @keyframes logo-marquee {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+  .animate-logo-marquee {
+    animation: logo-marquee 45s linear infinite;
+  }
+  /* Slower & cheaper on small screens */
+  @media (max-width: 768px) {
+    .animate-logo-marquee {
+      animation-duration: 30s;
+    }
+  }
+  /* Respect user motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-logo-marquee {
+      animation: none;
+    }
+  }
+}
