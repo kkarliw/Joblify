@@ -29,7 +29,7 @@
 [![Tests](https://img.shields.io/badge/E2E_Tests-43_Passed-22C55E?style=for-the-badge&logo=playwright&logoColor=white)](#-testing)
 [![SonarQube](https://img.shields.io/badge/SonarQube-Quality_Gate_Passed-22C55E?style=for-the-badge&logo=sonarqube&logoColor=white)](#-calidad-de-código--sonarqube)
 [![Status](https://img.shields.io/badge/Status-MVP_Funcional-FFCC00?style=for-the-badge)](#-estado-del-proyecto)
-[![License](https://img.shields.io/badge/License-MIT-6B7280?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-Clow-6B7280?style=for-the-badge)](LICENSE)
 
 <br/>
 
